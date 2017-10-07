@@ -3,8 +3,10 @@ class Simon
 
   attr_accessor :sequence_length, :game_over, :seq
 
-  def initialize
-
+  def initialize()
+    @sequence_length = 1
+    @game_over = false
+    @seq = []
   end
 
   def play
@@ -24,7 +26,8 @@ class Simon
   end
 
   def add_random_color
-
+    @seq << ["red", "blue", "yellow", "green"].shuffle[0]
+    @sequence_length = @seq.length
   end
 
   def round_success_message
