@@ -102,19 +102,61 @@ class CorgiSnacks
 
 end
 
+class Dog
+  def self.all
+    @dogs ||= []
+  end
+
+  def initialize(name)
+    @name = name
+
+    self.class.all << self
+  end
+end
 
 class MetaCorgiSnacks
+
   def initialize(snack_box, box_id)
+    self.class.snack_box = snack_box
+    self.class.box_id = box_id
     @snack_box = snack_box
     @box_id = box_id
   end
 
-  def method_missing(name, *args)
-    # Your code goes here...
+  def self.snack_box=(sb)
+    @snack_box = sb
   end
+
+  def self.box_id=(bid)
+    @box_id = bid
+  end
+
+  # def method_missing(name, *args)
+  #   # Your code goes here...
+  #   raise "method missing" if !%i(bone kibble treat).include?(name)
+  #   MetaCorgiSnacks.define_snack(name)
+  # end
 
 
   def self.define_snack(name)
     # Your code goes here...
+    define_method(name) do
+      @snack_box ||= SnackBox.new
+      @box_id ||= 1
+      info = @snack_box.send("get_#{name.to_s}_info".to_sym, @box_id)
+      tastiness = @snack_box.send("get_#{name.to_s}_tastiness".to_sym, @box_id)
+      result = "#{name.to_s.capitalize}: #{info}: #{tastiness} "
+      tastiness > 30 ? "* #{result}" : result
+    end
   end
+
+  define_snack(:bone)
+  define_snack(:kibble)
+  define_snack(:treat)
 end
+
+# load 'meta_corgis.rb'
+# snack_box = SnackBox.new
+# meta_snacks = MetaCorgiSnacks.new(snack_box, 1)
+# meta_snacks.bone # => "Bone: Phoenician rawhide: 20 "
+# meta_snacks.kibble
