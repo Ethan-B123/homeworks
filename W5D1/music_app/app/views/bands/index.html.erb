@@ -1,0 +1,8 @@
+
+<section class='band-list'>
+  <ul>
+    <% @bands.each_with_index do |band, idx| %>
+      <li class="band-li"><%= band.name %> <a href="<%= band_url(band.id) %>">more info</a></li>
+    <% end %>
+  </ul>
+</section>
