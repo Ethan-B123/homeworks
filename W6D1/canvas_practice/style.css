@@ -1,0 +1,13 @@
+body {
+  background: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mid-box {
+  background-color: #eee;
+  border: 1px solid #666;
+  border-radius: 5px;
+  padding: 10px;
+}
